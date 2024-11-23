@@ -24,3 +24,25 @@ def mostrar_graficos(entradas):
 
     plt.tight_layout()
     plt.show()
+
+# import matplotlib.pyplot as plt
+
+# def mostrar_graficos(entradas):
+#     fig, axs = plt.subplots(3, 1, figsize=(8, 10))
+
+#     axs[0].plot([entradas['temperatura']], 'ro-', label="Temperatura")
+#     axs[0].set_title("Temperatura")
+#     axs[0].legend()
+
+#     axs[1].plot([entradas['frecuencia_cardiaca']], 'go-', label="Frecuencia Cardíaca")
+#     axs[1].set_title("Frecuencia Cardíaca")
+#     axs[1].legend()
+
+#     axs[2].plot([entradas['presion_arterial']], 'bo-', label="Presión Arterial")
+#     axs[2].set_title("Presión Arterial")
+#     axs[2].legend()
+
+#     plt.tight_layout()
+#     plt.show()
+
+
