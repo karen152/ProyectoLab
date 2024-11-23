@@ -1,0 +1,86 @@
+[
+    {
+        "temperatura": 38.0,
+        "frecuencia_cardiaca": 120.0,
+        "presion_arterial": 95.0,
+        "nivel_oxigeno": 50.0,
+        "diagnostico": 0.8444444444444412
+    },
+    {
+        "temperatura": 40.0,
+        "frecuencia_cardiaca": 60.0,
+        "presion_arterial": 90.0,
+        "nivel_oxigeno": 94.0,
+        "diagnostico": 0.8444444444444444
+    },
+    {
+        "temperatura": 40.0,
+        "frecuencia_cardiaca": 60.0,
+        "presion_arterial": 85.0,
+        "nivel_oxigeno": 95.0,
+        "diagnostico": 0.8444444444444444
+    },
+    {
+        "temperatura": 37.0,
+        "frecuencia_cardiaca": 120.0,
+        "presion_arterial": 160.0,
+        "nivel_oxigeno": 97.0,
+        "diagnostico": 0.5
+    },
+    {
+        "temperatura": 41.0,
+        "frecuencia_cardiaca": 120.0,
+        "presion_arterial": 88.0,
+        "nivel_oxigeno": 100.0,
+        "diagnostico": 0.8444444444444444
+    },
+    {
+        "temperatura": 42.0,
+        "frecuencia_cardiaca": 130.0,
+        "presion_arterial": 180.0,
+        "nivel_oxigeno": 100.0,
+        "diagnostico": 0.7066666666666666
+    },
+    {
+        "temperatura": 38.0,
+        "frecuencia_cardiaca": 120.0,
+        "presion_arterial": 88.0,
+        "nivel_oxigeno": 94.0,
+        "diagnostico": 0.8238095238095238
+    },
+    {
+        "temperatura": 40.0,
+        "frecuencia_cardiaca": 120.0,
+        "presion_arterial": 120.0,
+        "nivel_oxigeno": 95.0,
+        "diagnostico": 0.8444444444444444
+    },
+    {
+        "temperatura": 41.0,
+        "frecuencia_cardiaca": 120.0,
+        "presion_arterial": 150.0,
+        "nivel_oxigeno": 95.0,
+        "diagnostico": 0.7066666666666666
+    },
+    {
+        "temperatura": 40.0,
+        "frecuencia_cardiaca": 120.0,
+        "presion_arterial": 140.0,
+        "nivel_oxigeno": 92.0,
+        "diagnostico": 0.7296296296296297
+    },
+    {
+        "temperatura": 39.0,
+        "frecuencia_cardiaca": 110.0,
+        "presion_arterial": 90.0,
+        "nivel_oxigeno": 94.0,
+        "diagnostico": 0.8444444444444417
+    },
+    {
+        "temperatura": 42.0,
+        "frecuencia_cardiaca": 130.0,
+        "presion_arterial": 180.0,
+        "nivel_oxigeno": 100.0,
+        "diagnostico": 0.7066666666666666
+    }
+]
