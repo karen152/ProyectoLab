@@ -23,7 +23,7 @@ def mostrar_graficos(entradas):
     axs[3].legend()
 
     plt.tight_layout()
-    plt.show()
+    plt.show() 
 
 # import matplotlib.pyplot as plt
 
