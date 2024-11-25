@@ -34,8 +34,11 @@ class SistemaDiagnosticoApp:
         custom_styles()
 
         # Crear pantalla principal con diseño estilizado
-        self.crear_pantalla_principal()
+        # self.crear_pantalla_principal()
+        # self.container = StyledContainer(self.root)
+        
         self.container = StyledContainer(self.root)
+        self.crear_pantalla_principal()
          
         # Conectar botones a sus comandos
     #     self.container.login_button.config(command=self.iniciar_sesion)
@@ -58,14 +61,7 @@ class SistemaDiagnosticoApp:
         
         self.ultimo_historial = None
 
-    # def crear_pantalla_principal(self):
-    #     # Contenedor principal estilizado
-    #     self.container = StyledContainer(self.root)
-
-    #     # Sobrescribir lógica de botones con funcionalidad
-    #     self.container.login_button.config(command=self.iniciar_sesion)
-    #     self.container.register_button.config(command=self.registro)
-    
+  
     def crear_pantalla_principal(self):
         # Eliminar cualquier pantalla previa
         for widget in self.root.winfo_children():
@@ -75,9 +71,41 @@ class SistemaDiagnosticoApp:
         self.container = StyledContainer(self.root)
 
         # Conectar botones a sus comandos
-        self.container.login_button.config(command=self.mostrar_pantalla_login)
-        #self.container.register_button.config(command=self.mostrar_pantalla_registro)
+        # self.container.login_button.config(command=self.mostrar_pantalla_login)
+        # #self.container.register_button.config(command=self.mostrar_pantalla_registro)
+        # self.container.register_button.config(command=self.registro)
+        #self.container.login_button.config(command=self.iniciar_sesion_desde_principal)
+        # self.container.login_button.config(command=self.iniciar_sesion_desde_principal)
+
+        # self.container.register_button.config(command=self.registro)
+        
+        self.container.login_button.config(command=self.iniciar_sesion_desde_principal)
+
+    # Conectar el botón de "Registrarse" al método registro
         self.container.register_button.config(command=self.registro)
+    
+  
+
+         
+         
+    def iniciar_sesion_desde_principal(self):
+        # cuil = self.entry_cuil_principal.get().strip()
+        #cuil = self.container.cuil_input.get().strip()
+        cuil = self.container.cuil_input.get().strip()
+        if not cuil:
+             messagebox.showerror("Error", "Debe ingresar un CUIL para iniciar sesión.")
+             return
+
+        paciente = obtener_paciente(cuil)
+        if paciente:
+            self.cuil = cuil
+            self.abrir_perfil(cuil)
+        else:
+              messagebox.showerror("Error", "CUIL no registrado. Por favor, regístrese primero.")
+        
+  
+   
+
 
         
     # def iniciar_sesion(self):
@@ -396,7 +424,12 @@ class SistemaDiagnosticoApp:
         else:
             agregar_paciente(nombre, edad, telefono, cuil, correo)
             messagebox.showinfo("Éxito", "Registro exitoso. Puede iniciar sesión ahora.")
-            self.crear_pantalla_principal()
+            # self.crear_pantalla_principal()
+            self.cuil = cuil  # Guardar el CUIL registrado
+            self.abrir_perfil(cuil)  # Redirigir automáticamente al perfil
+            
+
+
 
 
 
