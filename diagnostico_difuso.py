@@ -9,7 +9,7 @@ from recommendations import generar_recomendaciones
 from historial_visualization import mostrar_historial
 from PIL import Image, ImageTk  # Librería para imágenes
 
-
+import os
 import smtplib
 import ssl
 from correoelect import DiagnosticoDifusoApp
@@ -315,6 +315,15 @@ class SistemaDiagnosticoApp:
             command=self.crear_pantalla_principal
         )
         boton_volver.pack(fill="x", pady=10)
+        
+        # boton_datos = ttk.Button(
+        # self.perfil_frame,
+        # text="Capturar Datos Nuevos",
+        # bootstyle="primary",
+        # command=lambda: self.obtener_datos(cuil)  # Llama al método obtener_datos
+        # )
+        # boton_datos.pack(fill="x", pady=10)
+
 
         # Aquí puedes agregar más widgets o funcionalidades que estaban en tu proyecto original.
 
@@ -649,105 +658,222 @@ class SistemaDiagnosticoApp:
     #  else:
     #     messagebox.showinfo("Historial", "No hay datos disponibles.")
 
+    # def mostrar_historial(self, cuil):
+    # # Obtener el historial del paciente desde la base de datos
+    #  datos_historial = obtener_historial(cuil)
+    #  if datos_historial:  # Verifica si hay datos disponibles
+    #     # Procesar los datos en un diccionario
+    #     try:
+    #         datos = {
+    #             "temperatura": [registro[2] for registro in datos_historial],
+    #             "frecuencia_cardiaca": [registro[3] for registro in datos_historial],
+    #             "presion_arterial": [registro[4] for registro in datos_historial],
+    #             "diagnostico": [registro[5] for registro in datos_historial],
+    #         }
+    #     except IndexError:
+    #         messagebox.showerror("Error", "Los datos no están completos en la base de datos.")
+    #         return
+
+    #     # Generar gráficos individuales (ya existente)
+    #     fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    #     axs = axs.ravel()
+
+    #     axs[0].plot(datos["temperatura"], marker='o', label="Temperatura")
+    #     axs[0].set_title("Evolución de la Temperatura")
+    #     axs[0].set_xlabel("Sesión")
+    #     axs[0].set_ylabel("Temperatura (°C)")
+    #     axs[0].legend()
+
+    #     axs[1].plot(datos["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
+    #     axs[1].set_title("Evolución de la Frecuencia Cardíaca")
+    #     axs[1].set_xlabel("Sesión")
+    #     axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
+    #     axs[1].legend()
+
+    #     axs[2].plot(datos["presion_arterial"], marker='o', color='red', label="Presión Arterial")
+    #     axs[2].set_title("Evolución de la Presión Arterial")
+    #     axs[2].set_xlabel("Sesión")
+    #     axs[2].set_ylabel("Presión Arterial (mmHg)")
+    #     axs[2].legend()
+
+    #     axs[3].plot(range(len(datos["diagnostico"])), datos["diagnostico"], marker='o', color='purple', label="Diagnóstico")
+    #     axs[3].set_title("Evolución del Diagnóstico")
+    #     axs[3].set_xlabel("Sesión")
+    #     axs[3].set_ylabel("Diagnóstico")
+    #     axs[3].legend()
+
+    #     plt.tight_layout()
+    #     plt.show()
+
+    #     # Generar gráfico de barras (nuevo gráfico)
+    #     import numpy as np
+
+    #     sesiones = np.arange(1, len(datos["temperatura"]) + 1)
+    #     bar_width = 0.2
+
+    #     plt.figure(figsize=(12, 6))
+    #     plt.bar(sesiones - bar_width * 1.5, datos["temperatura"], bar_width, label='Temperatura (°C)', color='blue')
+    #     plt.bar(sesiones - bar_width * 0.5, datos["frecuencia_cardiaca"], bar_width, label='Frecuencia Cardíaca (bpm)', color='green')
+    #     plt.bar(sesiones + bar_width * 0.5, datos["presion_arterial"], bar_width, label='Presión Arterial (mmHg)', color='red')
+    #     plt.bar(sesiones + bar_width * 1.5, datos["diagnostico"], bar_width, label='Diagnóstico', color='purple')
+
+    #     plt.xlabel("Sesión")
+    #     plt.ylabel("Valores")
+    #     plt.title("Resumen de Valores Biométricos por Sesión")
+    #     plt.legend()
+    #     plt.tight_layout()
+    #     plt.show()
+
+    #  else:
+    #     messagebox.showinfo("Historial", "No hay datos disponibles.")
+
+    
+    # def obtener_datos(self, cuil):
+    #     self.ventana_datos = tk.Toplevel(self.root)
+    #     self.ventana_datos.title("Captura de Datos")
+
+    #     self.label_temperatura = tk.Label(self.ventana_datos, text="Temperatura (°C):", font=("Arial", 12))
+    #     self.label_temperatura.pack(pady=5)
+    #     self.entry_temperatura = tk.Entry(self.ventana_datos)
+    #     self.entry_temperatura.pack(pady=5)
+
+    #     self.label_presion = tk.Label(self.ventana_datos, text="Presión Arterial (mmHg):", font=("Arial", 12))
+    #     self.label_presion.pack(pady=5)
+    #     self.entry_presion = tk.Entry(self.ventana_datos)
+    #     self.entry_presion.pack(pady=5)
+
+    #     self.label_frecuencia = tk.Label(self.ventana_datos, text="Frecuencia Cardíaca (lpm):", font=("Arial", 12))
+    #     self.label_frecuencia.pack(pady=5)
+    #     self.entry_frecuencia = tk.Entry(self.ventana_datos)
+    #     self.entry_frecuencia.pack(pady=5)
+
+    #     self.label_oxigeno = tk.Label(self.ventana_datos, text="Nivel de Oxígeno (%):", font=("Arial", 12))
+    #     self.label_oxigeno.pack(pady=5)
+    #     self.entry_oxigeno = tk.Entry(self.ventana_datos)
+    #     self.entry_oxigeno.pack(pady=5)
+
+    #     self.boton_guardar = tk.Button(self.ventana_datos, text="Guardar Datos",
+    #                                    command=lambda: self.realizar_diagnostico(cuil))
+    #     self.boton_guardar.pack(pady=10)
+    
+    
+    def obtener_datos(self, cuil):
+    # Crear una ventana para capturar nuevos datos
+      self.ventana_datos = tk.Toplevel(self.root)
+      self.ventana_datos.title("Captura de Datos")
+
+    # Campo: Temperatura
+      label_temperatura = tk.Label(self.ventana_datos, text="Temperatura (°C):", font=("Arial", 12))
+      label_temperatura.pack(pady=5)
+      self.entry_temperatura = tk.Entry(self.ventana_datos)
+      self.entry_temperatura.pack(pady=5)
+
+    # Campo: Presión Arterial
+      label_presion = tk.Label(self.ventana_datos, text="Presión Arterial (mmHg):", font=("Arial", 12))
+      label_presion.pack(pady=5)
+      self.entry_presion = tk.Entry(self.ventana_datos)
+      self.entry_presion.pack(pady=5)
+
+    # Campo: Frecuencia Cardíaca
+      label_frecuencia = tk.Label(self.ventana_datos, text="Frecuencia Cardíaca (lpm):", font=("Arial", 12))
+      label_frecuencia.pack(pady=5)
+      self.entry_frecuencia = tk.Entry(self.ventana_datos)
+      self.entry_frecuencia.pack(pady=5)
+
+    # Campo: Nivel de Oxígeno
+      label_oxigeno = tk.Label(self.ventana_datos, text="Nivel de Oxígeno (%):", font=("Arial", 12))
+      label_oxigeno.pack(pady=5)
+      self.entry_oxigeno = tk.Entry(self.ventana_datos)
+      self.entry_oxigeno.pack(pady=5)
+
+    #Botón para guardar los datos y realizar el diagnóstico
+      boton_guardar = tk.Button(self.ventana_datos, text="Guardar Datos",
+                               command=lambda: self.realizar_diagnostico(cuil))
+      boton_guardar.pack(pady=10)
+      
+       
+        # boton_datos = ttk.Button(
+        # self.perfil_frame,
+        # text="Capturar Datos Nuevos",
+        # bootstyle="primary",
+        # command=lambda: self.obtener_datos(cuil)  # Llama al método obtener_datos
+        # )
+        # boton_datos.pack(fill="x", pady=10)
+
+    
+    
     def mostrar_historial(self, cuil):
-    # Obtener el historial del paciente desde la base de datos
-     datos_historial = obtener_historial(cuil)
+     datos_historial = obtener_historial(cuil)  # Obtiene el historial del paciente
      if datos_historial:  # Verifica si hay datos disponibles
-        # Procesar los datos en un diccionario
         try:
+            # Procesar los datos en un diccionario
             datos = {
-                "temperatura": [registro[2] for registro in datos_historial],
-                "frecuencia_cardiaca": [registro[3] for registro in datos_historial],
-                "presion_arterial": [registro[4] for registro in datos_historial],
-                "diagnostico": [registro[5] for registro in datos_historial],
+                "temperatura": [registro[2] for registro in datos_historial if registro[2] is not None],
+                "frecuencia_cardiaca": [registro[3] for registro in datos_historial if registro[3] is not None],
+                "presion_arterial": [registro[4] for registro in datos_historial if registro[4] is not None],
+                "diagnostico": [registro[5] for registro in datos_historial if registro[5] is not None],
             }
-        except IndexError:
-            messagebox.showerror("Error", "Los datos no están completos en la base de datos.")
-            return
 
-        # Generar gráficos individuales (ya existente)
-        fig, axs = plt.subplots(2, 2, figsize=(12, 10))
-        axs = axs.ravel()
+            # Validar que haya datos en todas las listas
+            for key, values in datos.items():
+                if not values:  # Si alguna lista está vacía
+                    raise ValueError(f"No hay datos válidos para {key}. Los gráficos no se pueden generar correctamente.")
 
-        axs[0].plot(datos["temperatura"], marker='o', label="Temperatura")
-        axs[0].set_title("Evolución de la Temperatura")
-        axs[0].set_xlabel("Sesión")
-        axs[0].set_ylabel("Temperatura (°C)")
-        axs[0].legend()
+            # Generar gráficos individuales (subplots)
+            fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+            axs = axs.ravel()
 
-        axs[1].plot(datos["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
-        axs[1].set_title("Evolución de la Frecuencia Cardíaca")
-        axs[1].set_xlabel("Sesión")
-        axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
-        axs[1].legend()
+            axs[0].plot(datos["temperatura"], marker='o', label="Temperatura")
+            axs[0].set_title("Evolución de la Temperatura")
+            axs[0].set_xlabel("Sesión")
+            axs[0].set_ylabel("Temperatura (°C)")
+            axs[0].legend()
 
-        axs[2].plot(datos["presion_arterial"], marker='o', color='red', label="Presión Arterial")
-        axs[2].set_title("Evolución de la Presión Arterial")
-        axs[2].set_xlabel("Sesión")
-        axs[2].set_ylabel("Presión Arterial (mmHg)")
-        axs[2].legend()
+            axs[1].plot(datos["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
+            axs[1].set_title("Evolución de la Frecuencia Cardíaca")
+            axs[1].set_xlabel("Sesión")
+            axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
+            axs[1].legend()
 
-        axs[3].plot(range(len(datos["diagnostico"])), datos["diagnostico"], marker='o', color='purple', label="Diagnóstico")
-        axs[3].set_title("Evolución del Diagnóstico")
-        axs[3].set_xlabel("Sesión")
-        axs[3].set_ylabel("Diagnóstico")
-        axs[3].legend()
+            axs[2].plot(datos["presion_arterial"], marker='o', color='red', label="Presión Arterial")
+            axs[2].set_title("Evolución de la Presión Arterial")
+            axs[2].set_xlabel("Sesión")
+            axs[2].set_ylabel("Presión Arterial (mmHg)")
+            axs[2].legend()
 
-        plt.tight_layout()
-        plt.show()
+            axs[3].plot(range(len(datos["diagnostico"])), datos["diagnostico"], marker='o', color='purple', label="Diagnóstico")
+            axs[3].set_title("Evolución del Diagnóstico")
+            axs[3].set_xlabel("Sesión")
+            axs[3].set_ylabel("Diagnóstico")
+            axs[3].legend()
 
-        # Generar gráfico de barras (nuevo gráfico)
-        import numpy as np
+            plt.tight_layout()
+            plt.show()
 
-        sesiones = np.arange(1, len(datos["temperatura"]) + 1)
-        bar_width = 0.2
+            # Generar el gráfico de barras (nuevo gráfico)
+            import numpy as np
+            sesiones = np.arange(1, len(datos["temperatura"]) + 1)
+            bar_width = 0.2
 
-        plt.figure(figsize=(12, 6))
-        plt.bar(sesiones - bar_width * 1.5, datos["temperatura"], bar_width, label='Temperatura (°C)', color='blue')
-        plt.bar(sesiones - bar_width * 0.5, datos["frecuencia_cardiaca"], bar_width, label='Frecuencia Cardíaca (bpm)', color='green')
-        plt.bar(sesiones + bar_width * 0.5, datos["presion_arterial"], bar_width, label='Presión Arterial (mmHg)', color='red')
-        plt.bar(sesiones + bar_width * 1.5, datos["diagnostico"], bar_width, label='Diagnóstico', color='purple')
+            plt.figure(figsize=(12, 6))
+            plt.bar(sesiones - bar_width * 1.5, datos["temperatura"], bar_width, label='Temperatura (°C)', color='blue')
+            plt.bar(sesiones - bar_width * 0.5, datos["frecuencia_cardiaca"], bar_width, label='Frecuencia Cardíaca (bpm)', color='green')
+            plt.bar(sesiones + bar_width * 0.5, datos["presion_arterial"], bar_width, label='Presión Arterial (mmHg)', color='red')
+            plt.bar(sesiones + bar_width * 1.5, datos["diagnostico"], bar_width, label='Diagnóstico', color='purple')
 
-        plt.xlabel("Sesión")
-        plt.ylabel("Valores")
-        plt.title("Resumen de Valores Biométricos por Sesión")
-        plt.legend()
-        plt.tight_layout()
-        plt.show()
+            plt.xlabel("Sesión")
+            plt.ylabel("Valores")
+            plt.title("Resumen de Valores Biométricos por Sesión")
+            plt.legend()
+            plt.tight_layout()
+            plt.show()
+
+        except ValueError as e:
+            messagebox.showinfo("Datos insuficientes", str(e))
 
      else:
         messagebox.showinfo("Historial", "No hay datos disponibles.")
 
-    
-    def obtener_datos(self, cuil):
-        self.ventana_datos = tk.Toplevel(self.root)
-        self.ventana_datos.title("Captura de Datos")
-
-        self.label_temperatura = tk.Label(self.ventana_datos, text="Temperatura (°C):", font=("Arial", 12))
-        self.label_temperatura.pack(pady=5)
-        self.entry_temperatura = tk.Entry(self.ventana_datos)
-        self.entry_temperatura.pack(pady=5)
-
-        self.label_presion = tk.Label(self.ventana_datos, text="Presión Arterial (mmHg):", font=("Arial", 12))
-        self.label_presion.pack(pady=5)
-        self.entry_presion = tk.Entry(self.ventana_datos)
-        self.entry_presion.pack(pady=5)
-
-        self.label_frecuencia = tk.Label(self.ventana_datos, text="Frecuencia Cardíaca (lpm):", font=("Arial", 12))
-        self.label_frecuencia.pack(pady=5)
-        self.entry_frecuencia = tk.Entry(self.ventana_datos)
-        self.entry_frecuencia.pack(pady=5)
-
-        self.label_oxigeno = tk.Label(self.ventana_datos, text="Nivel de Oxígeno (%):", font=("Arial", 12))
-        self.label_oxigeno.pack(pady=5)
-        self.entry_oxigeno = tk.Entry(self.ventana_datos)
-        self.entry_oxigeno.pack(pady=5)
-
-        self.boton_guardar = tk.Button(self.ventana_datos, text="Guardar Datos",
-                                       command=lambda: self.realizar_diagnostico(cuil))
-        self.boton_guardar.pack(pady=10)
-    
-    
         
     def realizar_diagnostico(self, cuil):
      try:
@@ -815,6 +941,370 @@ class SistemaDiagnosticoApp:
         messagebox.showerror("Entrada Inválida", str(e))
      except Exception as e:
         messagebox.showerror("Error", f"Ha ocurrido un error inesperado: {e}")
+        
+    # def descargar_pdf(self, cuil):
+    #     # Obtener historial directamente de la base de datos
+    #     datos_historial = obtener_historial(cuil)
+    #     if not datos_historial:
+    #         messagebox.showerror("Error", "No hay historial disponible para descargar el PDF.")
+    #         return
+
+    #     # Procesar los datos del historial
+    #     datos = {
+    #         "temperatura": [registro[2] for registro in datos_historial if registro[2] is not None],
+    #         "frecuencia_cardiaca": [registro[3] for registro in datos_historial if registro[3] is not None],
+    #         "presion_arterial": [registro[4] for registro in datos_historial if registro[4] is not None],
+    #         "diagnostico": [registro[5] for registro in datos_historial if registro[5] is not None],
+    #         "recomendaciones": [registro[5] for registro in datos_historial if registro[5] is not None]  # Ajusta según el índice correcto
+    #     }
+
+    #     # Validar que haya datos suficientes para los gráficos
+    #     if not all(len(values) > 0 for values in datos.values()):
+    #         messagebox.showerror("Error", "No hay suficientes datos para generar los gráficos en el PDF.")
+    #         return
+
+    #     # Crear el archivo PDF
+    #     pdf_path = f"diagnostico_{cuil}.pdf"
+    #     c = canvas.Canvas(pdf_path, pagesize=letter)
+    #     y_position = 750  # Posición inicial del contenido en el eje Y
+
+    #     # Título principal
+    #     c.drawString(100, y_position, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
+    #     y_position -= 20
+
+    #     # Agregar datos biométricos al PDF
+    #     c.drawString(100, y_position, "Últimos Datos Biométricos:")
+    #     y_position -= 20
+    #     c.drawString(120, y_position, f"Temperatura: {datos['temperatura'][-1]}°C")
+    #     y_position -= 20
+    #     c.drawString(120, y_position, f"Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
+    #     y_position -= 20
+    #     c.drawString(120, y_position, f"Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
+    #     y_position -= 20
+    #     c.drawString(120, y_position, f"Diagnóstico: {datos['diagnostico'][-1]}")
+    #     y_position -= 40
+
+    #     # Agregar recomendaciones
+    #     c.drawString(100, y_position, "Recomendaciones:")
+    #     y_position -= 20
+    #     for recomendacion in datos["recomendaciones"]:
+    #         c.drawString(120, y_position, f"- {recomendacion}")
+    #         y_position -= 20
+
+    #     try:
+    #         # Generar el gráfico original (4 subplots)
+    #         fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    #         axs = axs.ravel()
+
+    #         axs[0].plot(datos["temperatura"], marker='o', label="Temperatura")
+    #         axs[0].set_title("Evolución de la Temperatura")
+    #         axs[0].set_xlabel("Sesión")
+    #         axs[0].set_ylabel("Temperatura (°C)")
+    #         axs[0].legend()
+
+    #         axs[1].plot(datos["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
+    #         axs[1].set_title("Evolución de la Frecuencia Cardíaca")
+    #         axs[1].set_xlabel("Sesión")
+    #         axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
+    #         axs[1].legend()
+
+    #         axs[2].plot(datos["presion_arterial"], marker='o', color='red', label="Presión Arterial")
+    #         axs[2].set_title("Evolución de la Presión Arterial")
+    #         axs[2].set_xlabel("Sesión")
+    #         axs[2].set_ylabel("Presión Arterial (mmHg)")
+    #         axs[2].legend()
+
+    #         axs[3].plot(range(len(datos["diagnostico"])), datos["diagnostico"], marker='o', color='purple', label="Diagnóstico")
+    #         axs[3].set_title("Evolución del Diagnóstico")
+    #         axs[3].set_xlabel("Sesión")
+    #         axs[3].set_ylabel("Diagnóstico")
+    #         axs[3].legend()
+
+    #         plt.tight_layout()
+    #         original_graph_path = "original_historial.png"
+    #         plt.savefig(original_graph_path)
+    #         plt.close()
+
+    #         c.drawImage(original_graph_path, 100, y_position - 300, width=400, height=300)
+    #         os.remove(original_graph_path)
+
+    #         # Generar gráfico de barras
+    #         sesiones = range(1, len(datos["temperatura"]) + 1)
+    #         bar_width = 0.2
+
+    #         plt.figure(figsize=(12, 6))
+    #         plt.bar([s - bar_width * 1.5 for s in sesiones], datos["temperatura"], bar_width, label='Temperatura (°C)', color='blue')
+    #         plt.bar([s - bar_width * 0.5 for s in sesiones], datos["frecuencia_cardiaca"], bar_width, label='Frecuencia Cardíaca (bpm)', color='green')
+    #         plt.bar([s + bar_width * 0.5 for s in sesiones], datos["presion_arterial"], bar_width, label='Presión Arterial', color='red')
+    #         plt.bar([s + bar_width * 1.5 for s in sesiones], datos["diagnostico"], bar_width, label='Diagnóstico', color='purple')
+
+    #         plt.xlabel("Sesión")
+    #         plt.ylabel("Valores")
+    #         plt.title("Resumen de Valores Biométricos por Sesión")
+    #         plt.legend()
+    #         plt.tight_layout()
+
+    #         barras_path = "barras_historial.png"
+    #         plt.savefig(barras_path)
+    #         plt.close()
+
+    #         c.drawImage(barras_path, 100, y_position - 600, width=400, height=300)
+    #         os.remove(barras_path)
+
+    #     except Exception as e:
+    #         messagebox.showerror("Error", f"Error al generar los gráficos: {e}")
+    #         return
+
+    #     # Guardar el PDF
+    #     c.save()
+    #     messagebox.showinfo("PDF Generado", f"El PDF se ha guardado como {pdf_path}")
+        
+    ####porfa san expedito te lo pido porfa
+    
+    def descargar_pdf(self, cuil):
+        # Obtener historial directamente de la base de datos
+        datos_historial = obtener_historial(cuil)
+        if not datos_historial:
+            messagebox.showerror("Error", "No hay historial disponible para descargar el PDF.")
+            return
+
+        # Procesar los datos del historial
+        datos = {
+            "temperatura": [registro[2] for registro in datos_historial if registro[2] is not None],
+            "frecuencia_cardiaca": [registro[3] for registro in datos_historial if registro[3] is not None],
+            "presion_arterial": [registro[4] for registro in datos_historial if registro[4] is not None],
+            "diagnostico": [registro[5] for registro in datos_historial if registro[5] is not None],
+        }
+
+        # Validar que haya datos suficientes para los gráficos
+        if not all(len(values) > 0 for values in datos.values()):
+            messagebox.showerror("Error", "No hay suficientes datos para generar los gráficos en el PDF.")
+            return
+
+        # Crear el archivo PDF
+        pdf_path = f"diagnostico_{cuil}.pdf"
+        c = canvas.Canvas(pdf_path, pagesize=letter)
+        y_position = 750  # Posición inicial del contenido en el eje Y
+
+        # Título principal
+        c.drawString(100, y_position, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
+        y_position -= 20
+
+        # Agregar datos biométricos al PDF
+        c.drawString(100, y_position, "Últimos Datos Biométricos:")
+        y_position -= 20
+        c.drawString(120, y_position, f"Temperatura: {datos['temperatura'][-1]}°C")
+        y_position -= 20
+        c.drawString(120, y_position, f"Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
+        y_position -= 20
+        c.drawString(120, y_position, f"Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
+        y_position -= 20
+        c.drawString(120, y_position, f"Diagnóstico: {datos['diagnostico'][-1]}")
+        y_position -= 40
+
+        # Incluir recomendaciones (de último diagnóstico)
+        recomendaciones = generar_recomendaciones(
+            {
+                "temperatura": datos["temperatura"][-1],
+                "presion_arterial": datos["presion_arterial"][-1],
+                "frecuencia_cardiaca": datos["frecuencia_cardiaca"][-1],
+                "nivel_oxigeno": 95  # Valor por defecto si no está en la base de datos
+            },
+            datos["diagnostico"][-1]
+        )
+
+        c.drawString(100, y_position, "Recomendaciones:")
+        y_position -= 20
+        for recomendacion in recomendaciones:
+            c.drawString(120, y_position, f"- {recomendacion}")
+            y_position -= 20
+
+        try:
+            # Generar el gráfico original (4 subplots)
+            fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+            axs = axs.ravel()
+
+            axs[0].plot(datos["temperatura"], marker='o', label="Temperatura")
+            axs[0].set_title("Evolución de la Temperatura")
+            axs[0].set_xlabel("Sesión")
+            axs[0].set_ylabel("Temperatura (°C)")
+            axs[0].legend()
+
+            axs[1].plot(datos["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
+            axs[1].set_title("Evolución de la Frecuencia Cardíaca")
+            axs[1].set_xlabel("Sesión")
+            axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
+            axs[1].legend()
+
+            axs[2].plot(datos["presion_arterial"], marker='o', color='red', label="Presión Arterial")
+            axs[2].set_title("Evolución de la Presión Arterial")
+            axs[2].set_xlabel("Sesión")
+            axs[2].set_ylabel("Presión Arterial (mmHg)")
+            axs[2].legend()
+
+            axs[3].plot(range(len(datos["diagnostico"])), datos["diagnostico"], marker='o', color='purple', label="Diagnóstico")
+            axs[3].set_title("Evolución del Diagnóstico")
+            axs[3].set_xlabel("Sesión")
+            axs[3].set_ylabel("Diagnóstico")
+            axs[3].legend()
+
+            plt.tight_layout()
+            original_graph_path = "original_historial.png"
+            plt.savefig(original_graph_path)
+            plt.close()
+
+            c.drawImage(original_graph_path, 100, y_position - 300, width=400, height=300)
+            os.remove(original_graph_path)
+
+            # Generar gráfico de barras
+            sesiones = range(1, len(datos["temperatura"]) + 1)
+            bar_width = 0.2
+
+            plt.figure(figsize=(12, 6))
+            plt.bar([s - bar_width * 1.5 for s in sesiones], datos["temperatura"], bar_width, label='Temperatura (°C)', color='blue')
+            plt.bar([s - bar_width * 0.5 for s in sesiones], datos["frecuencia_cardiaca"], bar_width, label='Frecuencia Cardíaca (bpm)', color='green')
+            plt.bar([s + bar_width * 0.5 for s in sesiones], datos["presion_arterial"], bar_width, label='Presión Arterial', color='red')
+            plt.bar([s + bar_width * 1.5 for s in sesiones], datos["diagnostico"], bar_width, label='Diagnóstico', color='purple')
+
+            plt.xlabel("Sesión")
+            plt.ylabel("Valores")
+            plt.title("Resumen de Valores Biométricos por Sesión")
+            plt.legend()
+            plt.tight_layout()
+
+            barras_path = "barras_historial.png"
+            plt.savefig(barras_path)
+            plt.close()
+
+            c.drawImage(barras_path, 100, y_position - 600, width=400, height=300)
+            os.remove(barras_path)
+
+        except Exception as e:
+            messagebox.showerror("Error", f"Error al generar los gráficos: {e}")
+            return
+
+        # Guardar el PDF
+        c.save()
+        messagebox.showinfo("PDF Generado", f"El PDF se ha guardado como {pdf_path}")
+
+           
+    # def descargar_pdf(self, cuil):
+    #     # Obtener historial directamente de la base de datos
+    #     datos_historial = obtener_historial(cuil)
+    #     if not datos_historial:
+    #         messagebox.showerror("Error", "No hay historial disponible para descargar el PDF.")
+    #         return
+
+    #     # Procesar los datos del historial
+    #     datos = {
+    #         "temperatura": [registro[2] for registro in datos_historial if registro[2] is not None],
+    #         "frecuencia_cardiaca": [registro[3] for registro in datos_historial if registro[3] is not None],
+    #         "presion_arterial": [registro[4] for registro in datos_historial if registro[4] is not None],
+    #         "diagnostico": [registro[5] for registro in datos_historial if registro[5] is not None],
+    #     }
+
+    #     # Validar que haya datos suficientes para los gráficos
+    #     if not all(len(values) > 0 for values in datos.values()):
+    #         messagebox.showerror("Error", "No hay suficientes datos para generar los gráficos en el PDF.")
+    #         return
+
+    #     # Crear el archivo PDF
+    #     pdf_path = f"diagnostico_{cuil}.pdf"
+    #     c = canvas.Canvas(pdf_path, pagesize=letter)
+    #     y_position = 750  # Posición inicial del contenido en el eje Y
+
+    #     # Título principal
+    #     c.drawString(100, y_position, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
+    #     y_position -= 20
+
+    #     # Agregar datos biométricos al PDF
+    #     c.drawString(100, y_position, "Últimos Datos Biométricos:")
+    #     y_position -= 20
+    #     c.drawString(120, y_position, f"Temperatura: {datos['temperatura'][-1]}°C")
+    #     y_position -= 20
+    #     c.drawString(120, y_position, f"Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
+    #     y_position -= 20
+    #     c.drawString(120, y_position, f"Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
+    #     y_position -= 20
+    #     c.drawString(120, y_position, f"Diagnóstico: {datos['diagnostico'][-1]}")
+    #     y_position -= 40
+
+    #     try:
+    #         # Generar el gráfico original (4 subplots)
+    #         fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    #         axs = axs.ravel()
+
+    #         axs[0].plot(datos["temperatura"], marker='o', label="Temperatura")
+    #         axs[0].set_title("Evolución de la Temperatura")
+    #         axs[0].set_xlabel("Sesión")
+    #         axs[0].set_ylabel("Temperatura (°C)")
+    #         axs[0].legend()
+
+    #         axs[1].plot(datos["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
+    #         axs[1].set_title("Evolución de la Frecuencia Cardíaca")
+    #         axs[1].set_xlabel("Sesión")
+    #         axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
+    #         axs[1].legend()
+
+    #         axs[2].plot(datos["presion_arterial"], marker='o', color='red', label="Presión Arterial")
+    #         axs[2].set_title("Evolución de la Presión Arterial")
+    #         axs[2].set_xlabel("Sesión")
+    #         axs[2].set_ylabel("Presión Arterial (mmHg)")
+    #         axs[2].legend()
+
+    #         axs[3].plot(range(len(datos["diagnostico"])), datos["diagnostico"], marker='o', color='purple', label="Diagnóstico")
+    #         axs[3].set_title("Evolución del Diagnóstico")
+    #         axs[3].set_xlabel("Sesión")
+    #         axs[3].set_ylabel("Diagnóstico")
+    #         axs[3].legend()
+
+    #         plt.tight_layout()
+    #         original_graph_path = "original_historial.png"
+    #         plt.savefig(original_graph_path)
+    #         plt.close()
+
+    #         c.drawImage(original_graph_path, 100, y_position - 300, width=400, height=300)
+    #         os.remove(original_graph_path)
+
+    #         # Generar gráfico de barras
+    #         sesiones = range(1, len(datos["temperatura"]) + 1)
+    #         bar_width = 0.2
+
+    #         plt.figure(figsize=(12, 6))
+    #         plt.bar([s - bar_width * 1.5 for s in sesiones], datos["temperatura"], bar_width, label='Temperatura (°C)', color='blue')
+    #         plt.bar([s - bar_width * 0.5 for s in sesiones], datos["frecuencia_cardiaca"], bar_width, label='Frecuencia Cardíaca (bpm)', color='green')
+    #         plt.bar([s + bar_width * 0.5 for s in sesiones], datos["presion_arterial"], bar_width, label='Presión Arterial (mmHg)', color='red')
+    #         plt.bar([s + bar_width * 1.5 for s in sesiones], datos["diagnostico"], bar_width, label='Diagnóstico', color='purple')
+
+    #         plt.xlabel("Sesión")
+    #         plt.ylabel("Valores")
+    #         plt.title("Resumen de Valores Biométricos por Sesión")
+    #         plt.legend()
+    #         plt.tight_layout()
+
+    #         barras_path = "barras_historial.png"
+    #         plt.savefig(barras_path)
+    #         plt.close()
+
+    #         c.drawImage(barras_path, 100, y_position - 600, width=400, height=300)
+    #         os.remove(barras_path)
+
+    #     except Exception as e:
+    #         messagebox.showerror("Error", f"Error al generar los gráficos: {e}")
+    #         return
+
+    #     # Guardar el PDF
+    #     c.save()
+    #     messagebox.showinfo("PDF Generado", f"El PDF se ha guardado como {pdf_path}")
+
+ 
+
+           
+
+     
+                           
+        
+    
 
     # def descargar_pdf(self, cuil):
     #  if not self.ultimo_historial:
@@ -861,120 +1351,240 @@ class SistemaDiagnosticoApp:
     # # Guardar el PDF
     #  c.save()
     #  messagebox.showinfo("PDF Generado", f"El PDF se ha guardado como {pdf_path}")
+    
+    #este de abajo es jeje
 
-    def descargar_pdf(self, cuil):
-      if not self.ultimo_historial:
-        messagebox.showerror("Error", "Primero debe ingresar síntomas y ver el diagnóstico antes de descargar el PDF.")
-        return
+    # def descargar_pdf(self, cuil):
+    #   if not self.ultimo_historial:
+    #     messagebox.showerror("Error", "Primero debe ingresar síntomas y ver el diagnóstico antes de descargar el PDF.")
+    #     return
 
-    # Crear el archivo PDF
-      pdf_path = f"diagnostico_{cuil}.pdf"
-      c = canvas.Canvas(pdf_path, pagesize=letter)
-      y_position = 750  # Posición inicial del contenido en el eje Y
+    # # Crear el archivo PDF
+    #   pdf_path = f"diagnostico_{cuil}.pdf"
+    #   c = canvas.Canvas(pdf_path, pagesize=letter)
+    #   y_position = 750  # Posición inicial del contenido en el eje Y
 
-    # Título principal
-      c.drawString(100, y_position, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
-      y_position -= 20
+    # # Título principal
+    #   c.drawString(100, y_position, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
+    #   y_position -= 20
 
-    # Datos biométricos
-      datos = self.ultimo_historial
-      c.drawString(100, y_position, "Últimos Datos Biométricos:")
-      y_position -= 20
-      c.drawString(120, y_position, f"Temperatura: {datos['temperatura'][-1]}°C")
-      y_position -= 20
-      c.drawString(120, y_position, f"Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
-      y_position -= 20
-      c.drawString(120, y_position, f"Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
-      y_position -= 20
-      c.drawString(120, y_position, f"Nivel de Oxígeno: {datos['nivel_oxigeno'][-1]}%")
-      y_position -= 40
+    # # Datos biométricos
+    #   datos = self.ultimo_historial
+    #   c.drawString(100, y_position, "Últimos Datos Biométricos:")
+    #   y_position -= 20
+    #   c.drawString(120, y_position, f"Temperatura: {datos['temperatura'][-1]}°C")
+    #   y_position -= 20
+    #   c.drawString(120, y_position, f"Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
+    #   y_position -= 20
+    #   c.drawString(120, y_position, f"Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
+    #   y_position -= 20
+    #   c.drawString(120, y_position, f"Nivel de Oxígeno: {datos['nivel_oxigeno'][-1]}%")
+    #   y_position -= 40
 
-    # Diagnóstico descriptivo
-      c.drawString(100, y_position, f"Diagnóstico: {datos['diagnostico_descriptivo'][-1]}")
-      y_position -= 20
+    # # Diagnóstico descriptivo
+    #   c.drawString(100, y_position, f"Diagnóstico: {datos['diagnostico_descriptivo'][-1]}")
+    #   y_position -= 20
 
-    # Recomendaciones
-      c.drawString(100, y_position, "Recomendaciones:")
-      y_position -= 20
-      for recomendacion in datos["recomendaciones"][-1]:
-        c.drawString(120, y_position, f"- {recomendacion}")
-        y_position -= 20
+    # # Recomendaciones
+    #   c.drawString(100, y_position, "Recomendaciones:")
+    #   y_position -= 20
+    #   for recomendacion in datos["recomendaciones"][-1]:
+    #     c.drawString(120, y_position, f"- {recomendacion}")
+    #     y_position -= 20
 
-    # Generar y agregar el gráfico original (subplots)
-        import matplotlib.pyplot as plt
-        fig, axs = plt.subplots(2, 2, figsize=(12, 10))
-        axs = axs.ravel()
+    # # Generar y agregar el gráfico original (subplots)
+    #     import matplotlib.pyplot as plt
+    #     fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    #     axs = axs.ravel()
 
-        axs[0].plot(datos["temperatura"], marker='o', label="Temperatura")
-        axs[0].set_title("Evolución de la Temperatura")
-        axs[0].set_xlabel("Sesión")
-        axs[0].set_ylabel("Temperatura (°C)")
-        axs[0].legend()
+    #     axs[0].plot(datos["temperatura"], marker='o', label="Temperatura")
+    #     axs[0].set_title("Evolución de la Temperatura")
+    #     axs[0].set_xlabel("Sesión")
+    #     axs[0].set_ylabel("Temperatura (°C)")
+    #     axs[0].legend()
 
-        axs[1].plot(datos["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
-        axs[1].set_title("Evolución de la Frecuencia Cardíaca")
-        axs[1].set_xlabel("Sesión")
-        axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
-        axs[1].legend()
+    #     axs[1].plot(datos["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
+    #     axs[1].set_title("Evolución de la Frecuencia Cardíaca")
+    #     axs[1].set_xlabel("Sesión")
+    #     axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
+    #     axs[1].legend()
 
-        axs[2].plot(datos["presion_arterial"], marker='o', color='red', label="Presión Arterial")
-        axs[2].set_title("Evolución de la Presión Arterial")
-        axs[2].set_xlabel("Sesión")
-        axs[2].set_ylabel("Presión Arterial (mmHg)")
-        axs[2].legend()
+    #     axs[2].plot(datos["presion_arterial"], marker='o', color='red', label="Presión Arterial")
+    #     axs[2].set_title("Evolución de la Presión Arterial")
+    #     axs[2].set_xlabel("Sesión")
+    #     axs[2].set_ylabel("Presión Arterial (mmHg)")
+    #     axs[2].legend()
 
-        axs[3].plot(range(len(datos["diagnostico"])), datos["diagnostico"], marker='o', color='purple', label="Diagnóstico")
-        axs[3].set_title("Evolución del Diagnóstico")
-        axs[3].set_xlabel("Sesión")
-        axs[3].set_ylabel("Diagnóstico")
-        axs[3].legend()
+    #     axs[3].plot(range(len(datos["diagnostico"])), datos["diagnostico"], marker='o', color='purple', label="Diagnóstico")
+    #     axs[3].set_title("Evolución del Diagnóstico")
+    #     axs[3].set_xlabel("Sesión")
+    #     axs[3].set_ylabel("Diagnóstico")
+    #     axs[3].legend()
 
-        plt.tight_layout()
-        original_graph_path = "original_historial.png"
-        plt.savefig(original_graph_path)
-        plt.close()
+    #     plt.tight_layout()
+    #     original_graph_path = "original_historial.png"
+    #     plt.savefig(original_graph_path)
+    #     plt.close()
 
-    # Insertar el gráfico original en el PDF
-        c.drawImage(original_graph_path, 100, y_position - 300, width=400, height=300)
-        y_position -= 320  # Ajustar espacio después del gráfico original
+    # # Insertar el gráfico original en el PDF
+    #     c.drawImage(original_graph_path, 100, y_position - 300, width=400, height=300)
+    #     y_position -= 320  # Ajustar espacio después del gráfico original
 
-    # Eliminar el gráfico original temporal
-        import os
-        os.remove(original_graph_path)
+    # # Eliminar el gráfico original temporal
+    #     import os
+    #     os.remove(original_graph_path)
 
-    # Generar y agregar el nuevo gráfico de barras
-        import numpy as np
-        sesiones = np.arange(1, len(datos["temperatura"]) + 1)
-        bar_width = 0.2
+    # # Generar y agregar el nuevo gráfico de barras
+    #     import numpy as np
+    #     sesiones = np.arange(1, len(datos["temperatura"]) + 1)
+    #     bar_width = 0.2
 
-        plt.figure(figsize=(12, 6))
-        plt.bar(sesiones - bar_width * 1.5, datos["temperatura"], bar_width, label='Temperatura (°C)', color='blue')
-        plt.bar(sesiones - bar_width * 0.5, datos["frecuencia_cardiaca"], bar_width, label='Frecuencia Cardíaca (bpm)', color='green')
-        plt.bar(sesiones + bar_width * 0.5, datos["presion_arterial"], bar_width, label='Presión Arterial (mmHg)', color='red')
-        plt.bar(sesiones + bar_width * 1.5, datos["diagnostico"], bar_width, label='Diagnóstico', color='purple')
+    #     plt.figure(figsize=(12, 6))
+    #     plt.bar(sesiones - bar_width * 1.5, datos["temperatura"], bar_width, label='Temperatura (°C)', color='blue')
+    #     plt.bar(sesiones - bar_width * 0.5, datos["frecuencia_cardiaca"], bar_width, label='Frecuencia Cardíaca (bpm)', color='green')
+    #     plt.bar(sesiones + bar_width * 0.5, datos["presion_arterial"], bar_width, label='Presión Arterial (mmHg)', color='red')
+    #     plt.bar(sesiones + bar_width * 1.5, datos["diagnostico"], bar_width, label='Diagnóstico', color='purple')
 
-        plt.xlabel("Sesión")
-        plt.ylabel("Valores")
-        plt.title("Resumen de Valores Biométricos por Sesión")
-        plt.legend()
-        plt.tight_layout()
+    #     plt.xlabel("Sesión")
+    #     plt.ylabel("Valores")
+    #     plt.title("Resumen de Valores Biométricos por Sesión")
+    #     plt.legend()
+    #     plt.tight_layout()
 
-        barras_path = "barras_historial.png"
-        plt.savefig(barras_path)
-        plt.close()
+    #     barras_path = "barras_historial.png"
+    #     plt.savefig(barras_path)
+    #     plt.close()
 
-    # Insertar el gráfico de barras en el PDF
-        c.drawImage(barras_path, 100, y_position - 300, width=400, height=300)
+    # # Insertar el gráfico de barras en el PDF
+    #     c.drawImage(barras_path, 100, y_position - 300, width=400, height=300)
 
-    # Eliminar el gráfico de barras temporal
-        os.remove(barras_path)
+    # # Eliminar el gráfico de barras temporal
+    #     os.remove(barras_path)
 
-    # Guardar el archivo PDF
-        c.save()
-        messagebox.showinfo("PDF Generado", f"El PDF se ha guardado como {pdf_path}")
+    # # Guardar el archivo PDF
+    #     c.save()
+    #     messagebox.showinfo("PDF Generado", f"El PDF se ha guardado como {pdf_path}")
+    
+    
+    # def descargar_pdf(self, cuil):
+    #   if not self.ultimo_historial:
+    #     messagebox.showerror("Error", "Primero debe ingresar síntomas y ver el diagnóstico antes de descargar el PDF.")
+    #     return
+
+    # # Crear el archivo PDF
+    #    pdf_path = f"diagnostico_{cuil}.pdf"
+    #    c = canvas.Canvas(pdf_path, pagesize=letter)
+    #    y_position = 750  # Posición inicial del contenido en el eje Y
+
+    # # Título principal
+    #    c.drawString(100, y_position, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
+    #    y_position -= 20
+
+    # # Datos biométricos
+    #    datos = self.ultimo_historial
+    #    c.drawString(100, y_position, "Últimos Datos Biométricos:")
+    #    y_position -= 20
+    #    c.drawString(120, y_position, f"Temperatura: {datos['temperatura'][-1]}°C")
+    #    y_position -= 20
+    #    c.drawString(120, y_position, f"Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
+    #    y_position -= 20
+    #   c.drawString(120, y_position, f"Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
+    #   y_position -= 20
+    #   c.drawString(120, y_position, f"Nivel de Oxígeno: {datos['nivel_oxigeno'][-1]}%")
+    #   y_position -= 40
+
+    # # Diagnóstico descriptivo
+    #   c.drawString(100, y_position, f"Diagnóstico: {datos['diagnostico_descriptivo'][-1]}")
+    #   y_position -= 20
+
+    # # Recomendaciones
+    #   c.drawString(100, y_position, "Recomendaciones:")
+    #   y_position -= 20
+    #   for recomendacion in datos["recomendaciones"][-1]:
+    #     c.drawString(120, y_position, f"- {recomendacion}")
+    #     y_position -= 20
+
+    # # Validar y procesar los datos para los gráficos
+    # try:
+    #     datos_validados = {
+    #         "temperatura": [val for val in datos["temperatura"] if val is not None],
+    #         "frecuencia_cardiaca": [val for val in datos["frecuencia_cardiaca"] if val is not None],
+    #         "presion_arterial": [val for val in datos["presion_arterial"] if val is not None],
+    #         "diagnostico": [val for val in datos["diagnostico"] if val is not None],
+    #     }
+
+    #     for key, values in datos_validados.items():
+    #         if not values:  # Si alguna lista está vacía
+    #             raise ValueError(f"No hay datos válidos para {key}. Los gráficos no se pueden generar correctamente.")
+
+    #     # Generar gráfico original (subplots)
+    #     import matplotlib.pyplot as plt
+    #     fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    #     axs = axs.ravel()
+
+    #     axs[0].plot(datos_validados["temperatura"], marker='o', label="Temperatura")
+    #     axs[0].set_title("Evolución de la Temperatura")
+    #     axs[0].set_xlabel("Sesión")
+    #     axs[0].set_ylabel("Temperatura (°C)")
+    #     axs[0].legend()
+
+    #     axs[1].plot(datos_validados["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
+    #     axs[1].set_title("Evolución de la Frecuencia Cardíaca")
+    #     axs[1].set_xlabel("Sesión")
+    #     axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
+    #     axs[1].legend()
+
+    #     axs[2].plot(datos_validados["presion_arterial"], marker='o', color='red', label="Presión Arterial")
+    #     axs[2].set_title("Evolución de la Presión Arterial")
+    #     axs[2].set_xlabel("Sesión")
+    #     axs[2].set_ylabel("Presión Arterial (mmHg)")
+    #     axs[2].legend()
+
+    #     axs[3].plot(range(len(datos_validados["diagnostico"])), datos_validados["diagnostico"], marker='o', color='purple', label="Diagnóstico")
+    #     axs[3].set_title("Evolución del Diagnóstico")
+    #     axs[3].set_xlabel("Sesión")
+    #     axs[3].set_ylabel("Diagnóstico")
+    #     axs[3].legend()
+
+    #       plt.tight_layout()
+    #       original_graph_path = "original_historial.png"
+    #       plt.savefig(original_graph_path)
+    #       plt.close()
+    #       c.drawImage(original_graph_path, 100, y_position - 300, width=400, height=300)
+    #       os.remove(original_graph_path)
+
+    #     # Generar y agregar gráfico de barras
+    #     sesiones = range(1, len(datos_validados["temperatura"]) + 1)
+    #     bar_width = 0.2
+
+    #     plt.figure(figsize=(12, 6))
+    #     plt.bar([s - bar_width * 1.5 for s in sesiones], datos_validados["temperatura"], bar_width, label='Temperatura (°C)', color='blue')
+    #     plt.bar([s - bar_width * 0.5 for s in sesiones], datos_validados["frecuencia_cardiaca"], bar_width, label='Frecuencia Cardíaca (bpm)', color='green')
+    #     plt.bar([s + bar_width * 0.5 for s in sesiones], datos_validados["presion_arterial"], bar_width, label='Presión Arterial (mmHg)', color='red')
+    #     plt.bar([s + bar_width * 1.5 for s in sesiones], datos_validados["diagnostico"], bar_width, label='Diagnóstico', color='purple')
+
+    #     plt.xlabel("Sesión")
+    #     plt.ylabel("Valores")
+    #     plt.title("Resumen de Valores Biométricos por Sesión")
+    #     plt.legend()
+    #     plt.tight_layout()
+
+    #     barras_path = "barras_historial.png"
+    #     plt.savefig(barras_path)
+    #     plt.close()
+    #     c.drawImage(barras_path, 100, y_position - 600, width=400, height=300)
+    #     os.remove(barras_path)
+
+    # except ValueError as e:
+    #     messagebox.showinfo("Datos insuficientes", str(e))
+
+    # # Guardar el PDF
+    # c.save()
+    # messagebox.showinfo("PDF Generado", f"El PDF se ha guardado como {pdf_path}")
 
 
-		
+
+        
 
    
       
@@ -982,93 +1592,93 @@ class SistemaDiagnosticoApp:
 
 
 
-        ##este de abajo es el si
-#     def descargar_pdf(self, cuil):
-#        if not self.ultimo_historial:
-#         messagebox.showerror("Error", "Primero debe ingresar síntomas y ver el diagnóstico antes de descargar el PDF.")
-#         return
+    #     #este de abajo es el si
+    # def descargar_pdf(self, cuil):
+    #    if not self.ultimo_historial:
+    #     messagebox.showerror("Error", "Primero debe ingresar síntomas y ver el diagnóstico antes de descargar el PDF.")
+    #     return
 
-#     # Crear el archivo PDF
-#        pdf_path = f"diagnostico_{cuil}.pdf"
-#        c = canvas.Canvas(pdf_path, pagesize=letter)
-#        c.drawString(100, 750, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
+    # # Crear el archivo PDF
+    #    pdf_path = f"diagnostico_{cuil}.pdf"
+    #    c = canvas.Canvas(pdf_path, pagesize=letter)
+    #    c.drawString(100, 750, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
 
-#     # Agregar los datos del historial al PDF
-#        datos = self.ultimo_historial
-#        c.drawString(100, 730, "Últimos Datos Biométricos:")
-#        c.drawString(120, 710, f"Temperatura: {datos['temperatura'][-1]}°C")
-#        c.drawString(120, 690, f"Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
-#        c.drawString(120, 670, f"Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
+    # # Agregar los datos del historial al PDF
+    #    datos = self.ultimo_historial
+    #    c.drawString(100, 730, "Últimos Datos Biométricos:")
+    #    c.drawString(120, 710, f"Temperatura: {datos['temperatura'][-1]}°C")
+    #    c.drawString(120, 690, f"Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
+    #    c.drawString(120, 670, f"Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
 
-#     # Validar que nivel_oxigeno esté disponible
-#        if "nivel_oxigeno" in datos and datos["nivel_oxigeno"]:
-#         c.drawString(120, 650, f"Nivel de Oxígeno: {datos['nivel_oxigeno'][-1]}%")
-#        else:
-#         c.drawString(120, 650, "Nivel de Oxígeno: No disponible.")
+    # # Validar que nivel_oxigeno esté disponible
+    #    if "nivel_oxigeno" in datos and datos["nivel_oxigeno"]:
+    #     c.drawString(120, 650, f"Nivel de Oxígeno: {datos['nivel_oxigeno'][-1]}%")
+    #    else:
+    #     c.drawString(120, 650, "Nivel de Oxígeno: No disponible.")
 
-#     # Mostrar el diagnóstico descriptivo en el PDF
-#        if "diagnostico" in datos and datos["diagnostico"]:
-#         c.drawString(120, 630, f"Diagnóstico: {datos['diagnostico'][-1]}")  # Texto descriptivo
-#        else:
-#         c.drawString(120, 630, "Diagnóstico: No disponible.")
+    # # Mostrar el diagnóstico descriptivo en el PDF
+    #    if "diagnostico" in datos and datos["diagnostico"]:
+    #     c.drawString(120, 630, f"Diagnóstico: {datos['diagnostico'][-1]}")  # Texto descriptivo
+    #    else:
+    #     c.drawString(120, 630, "Diagnóstico: No disponible.")
 
-#     # Agregar recomendaciones
-#        y_position = 610
-#        if "recomendaciones" in datos and datos["recomendaciones"]:
-#         c.drawString(100, y_position, "Recomendaciones:")
-#         y_position -= 20
-#         for recomendacion in datos["recomendaciones"][-1]:
-#             c.drawString(120, y_position, f"- {recomendacion}")
-#             y_position -= 20  # Ajusta la posición vertical para cada recomendación
-#        else:
-#         c.drawString(100, y_position, "Recomendaciones: No disponibles.")
-#         y_position -= 20
+    # # Agregar recomendaciones
+    #    y_position = 610
+    #    if "recomendaciones" in datos and datos["recomendaciones"]:
+    #     c.drawString(100, y_position, "Recomendaciones:")
+    #     y_position -= 20
+    #     for recomendacion in datos["recomendaciones"][-1]:
+    #         c.drawString(120, y_position, f"- {recomendacion}")
+    #         y_position -= 20  # Ajusta la posición vertical para cada recomendación
+    #    else:
+    #     c.drawString(100, y_position, "Recomendaciones: No disponibles.")
+    #     y_position -= 20
 
-#     # Generar el gráfico con subplots
-#        fig, axs = plt.subplots(2, 2, figsize=(12, 10))
-#        axs = axs.ravel()
+    # # Generar el gráfico con subplots
+    #    fig, axs = plt.subplots(2, 2, figsize=(12, 10))
+    #    axs = axs.ravel()
 
-#        axs[0].plot(datos["temperatura"], marker='o', label="Temperatura")
-#        axs[0].set_title("Evolución de la Temperatura")
-#        axs[0].set_xlabel("Sesión")
-#        axs[0].set_ylabel("Temperatura (°C)")
-#        axs[0].legend()
+    #    axs[0].plot(datos["temperatura"], marker='o', label="Temperatura")
+    #    axs[0].set_title("Evolución de la Temperatura")
+    #    axs[0].set_xlabel("Sesión")
+    #    axs[0].set_ylabel("Temperatura (°C)")
+    #    axs[0].legend()
 
-#        axs[1].plot(datos["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
-#        axs[1].set_title("Evolución de la Frecuencia Cardíaca")
-#        axs[1].set_xlabel("Sesión")
-#        axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
-#        axs[1].legend()
+    #    axs[1].plot(datos["frecuencia_cardiaca"], marker='o', color='green', label="Frecuencia Cardíaca")
+    #    axs[1].set_title("Evolución de la Frecuencia Cardíaca")
+    #    axs[1].set_xlabel("Sesión")
+    #    axs[1].set_ylabel("Frecuencia Cardíaca (bpm)")
+    #    axs[1].legend()
 
-#        axs[2].plot(datos["presion_arterial"], marker='o', color='red', label="Presión Arterial")
-#        axs[2].set_title("Evolución de la Presión Arterial")
-#        axs[2].set_xlabel("Sesión")
-#        axs[2].set_ylabel("Presión Arterial (mmHg)")
-#        axs[2].legend()
+    #    axs[2].plot(datos["presion_arterial"], marker='o', color='red', label="Presión Arterial")
+    #    axs[2].set_title("Evolución de la Presión Arterial")
+    #    axs[2].set_xlabel("Sesión")
+    #    axs[2].set_ylabel("Presión Arterial (mmHg)")
+    #    axs[2].legend()
 
-#        axs[3].plot(range(len(datos["diagnostico"])), datos["diagnostico"], marker='o', color='purple', label="Diagnóstico")
-#        axs[3].set_title("Evolución del Diagnóstico")
-#        axs[3].set_xlabel("Sesión")
-#        axs[3].set_ylabel("Diagnóstico")
-#        axs[3].legend()
+    #    axs[3].plot(range(len(datos["diagnostico"])), datos["diagnostico"], marker='o', color='purple', label="Diagnóstico")
+    #    axs[3].set_title("Evolución del Diagnóstico")
+    #    axs[3].set_xlabel("Sesión")
+    #    axs[3].set_ylabel("Diagnóstico")
+    #    axs[3].legend()
  
-#        plt.tight_layout()
+    #    plt.tight_layout()
 
-#     # Guardar el gráfico como imagen temporal
-#        temp_image_path = "temp_historial.png"
-#        plt.savefig(temp_image_path)
-#        plt.close()
+    # # Guardar el gráfico como imagen temporal
+    #    temp_image_path = "temp_historial.png"
+    #    plt.savefig(temp_image_path)
+    #    plt.close()
 
-#     # Insertar el gráfico en el PDF
-#        c.drawImage(temp_image_path, 100, 250, width=400, height=300)
+    # # Insertar el gráfico en el PDF
+    #    c.drawImage(temp_image_path, 100, 250, width=400, height=300)
 
-#     # Eliminar la imagen temporal después de usarla
-#        import os
-#        os.remove(temp_image_path)
+    # # Eliminar la imagen temporal después de usarla
+    #    import os
+    #    os.remove(temp_image_path)
 
-#     # Guardar el archivo PDF
-#        c.save()
-#        messagebox.showinfo("PDF Generado", f"El PDF se ha guardado como {pdf_path}")
+    # # Guardar el archivo PDF
+    #    c.save()
+    #    messagebox.showinfo("PDF Generado", f"El PDF se ha guardado como {pdf_path}")
        
        
     
