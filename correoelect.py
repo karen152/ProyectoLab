@@ -44,8 +44,86 @@ class DiagnosticoDifusoApp:
         self.enviar_button = tk.Button(root, text="Enviar Correo", command=self.enviar_correo)
         self.enviar_button.pack()
 
+    # def seleccionar_paciente(self):
+    #     """Obtiene el correo del paciente según el CUIL ingresado"""
+    #     cuil = self.cuil_entry.get().strip()
+    #     if not cuil:
+    #         messagebox.showerror("Error", "Debe ingresar un CUIL.")
+    #         return
+
+    #     paciente = self.obtener_paciente_por_id(cuil)
+    #     if paciente:
+    #         self.cuil_paciente_actual = cuil
+    #         self.correo_paciente = paciente['correo']
+    #         messagebox.showinfo("Paciente Cargado", f"Correo del paciente: {self.correo_paciente}")
+    #     else:
+    #         messagebox.showerror("Error", "No se encontró un paciente con el CUIL ingresado.")
+    
+    # def seleccionar_paciente(self):
+    #     """Obtiene el correo del paciente según el CUIL ingresado"""
+    #     cuil = self.cuil_entry.get().strip()
+    #     if not cuil:
+    #         messagebox.showerror("Error", "Debe ingresar un CUIL.")
+    #         return
+
+    #     paciente = self.obtener_paciente_por_id(cuil)
+    #     if paciente:
+    #         self.cuil_paciente_actual = cuil
+    #         self.correo_paciente = paciente['correo']
+    #         messagebox.showinfo("Paciente Cargado", f"Correo del paciente: {self.correo_paciente}")
+
+    #         # Configurar asunto y mensaje predefinidos
+    #         self.asunto_entry.delete(0, tk.END)
+    #         self.asunto_entry.insert(0, "Diagnóstico Personalizado")
+
+    #         mensaje_predefinido = (
+    #             f"Hola {paciente['nombre']},\n\n"
+    #             "Adjuntamos a este correo el informe detallado de su diagnóstico médico personalizado. "
+    #             "Si tiene alguna consulta, no dude en contactarnos.\n\n"
+    #             "Saludos cordiales, Sofia aguirre y karen barraza"
+    #         )
+    #         self.mensaje_text.delete("1.0", tk.END)
+    #         self.mensaje_text.insert("1.0", mensaje_predefinido)
+    #     else:
+    #         messagebox.showerror("Error", "No se encontró un paciente con el CUIL ingresado.")
+    
+    # def seleccionar_paciente(self):
+    #     """Obtiene el correo del paciente según el CUIL ingresado y adjunta el PDF automáticamente"""
+    #     cuil = self.cuil_entry.get().strip()
+    #     if not cuil:
+    #         messagebox.showerror("Error", "Debe ingresar un CUIL.")
+    #         return
+
+    #     paciente = self.obtener_paciente_por_id(cuil)
+    #     if paciente:
+    #         self.cuil_paciente_actual = cuil
+    #         self.correo_paciente = paciente['correo']
+    #         messagebox.showinfo("Paciente Cargado", f"Correo del paciente: {self.correo_paciente}")
+
+    #         # Configurar asunto y mensaje predefinidos
+    #         self.asunto_entry.delete(0, tk.END)
+    #         self.asunto_entry.insert(0, "Diagnóstico Personalizado")
+
+    #         mensaje_predefinido = (
+    #             f"Hola {paciente['nombre']},\n\n"
+    #             "Adjuntamos a este correo el informe detallado de su diagnóstico médico personalizado. "
+    #             "Si tiene alguna consulta, no dude en contactarnos.\n\n"
+    #             "Saludos cordiales,\nEl equipo médico"
+    #         )
+    #         self.mensaje_text.delete("1.0", tk.END)
+    #         self.mensaje_text.insert("1.0", mensaje_predefinido)
+
+    #         # Generar automáticamente el PDF y adjuntarlo
+    #         pdf_path = f"diagnostico_{cuil}.pdf"
+    #         self.generar_pdf(cuil, pdf_path)  # Método para crear el PDF
+    #         self.archivos_adjuntos.append(pdf_path)  # Agregar PDF a la lista de adjuntos
+    #         messagebox.showinfo("PDF Generado", f"El PDF se ha adjuntado automáticamente: {pdf_path}")
+
+    #     else:
+    #         messagebox.showerror("Error", "No se encontró un paciente con el CUIL ingresado.")
+
     def seleccionar_paciente(self):
-        """Obtiene el correo del paciente según el CUIL ingresado"""
+        """Obtiene el correo del paciente según el CUIL ingresado y adjunta el PDF automáticamente"""
         cuil = self.cuil_entry.get().strip()
         if not cuil:
             messagebox.showerror("Error", "Debe ingresar un CUIL.")
@@ -56,8 +134,29 @@ class DiagnosticoDifusoApp:
             self.cuil_paciente_actual = cuil
             self.correo_paciente = paciente['correo']
             messagebox.showinfo("Paciente Cargado", f"Correo del paciente: {self.correo_paciente}")
+
+            # Configurar asunto y mensaje predefinidos
+            self.asunto_entry.delete(0, tk.END)
+            self.asunto_entry.insert(0, "Diagnóstico Personalizado")
+
+            mensaje_predefinido = (
+                f"Hola {paciente['nombre']},\n\n"
+                "Adjuntamos a este correo el informe detallado de su diagnóstico médico personalizado. "
+                "Si tiene alguna consulta, no dude en contactarnos.\n\n"
+                "Saludos cordiales,\nEl equipo médico"
+            )
+            self.mensaje_text.delete("1.0", tk.END)
+            self.mensaje_text.insert("1.0", mensaje_predefinido)
+
+            # Generar automáticamente el PDF y adjuntarlo
+            pdf_path = f"diagnostico_{cuil}.pdf"
+            self.generar_pdf(cuil, pdf_path)  # Generar el PDF
+            self.archivos_adjuntos.append(pdf_path)  # Agregar PDF a la lista de adjuntos
+            messagebox.showinfo("PDF Generado", f"El PDF se ha adjuntado automáticamente: {pdf_path}")
+
         else:
             messagebox.showerror("Error", "No se encontró un paciente con el CUIL ingresado.")
+
 
     def obtener_paciente_por_id(self, cuil):
         """Consulta la base de datos para obtener datos del paciente"""

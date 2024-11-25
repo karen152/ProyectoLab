@@ -102,8 +102,153 @@ class SistemaDiagnosticoApp:
             self.abrir_perfil(cuil)
         else:
               messagebox.showerror("Error", "CUIL no registrado. Por favor, regístrese primero.")
+              
+              ##agrgado
         
-  
+    # def generar_pdf(self, cuil, pdf_path):
+    #     """Genera el PDF del diagnóstico para un CUIL específico"""
+    #     datos_historial = obtener_historial(cuil)
+    #     if not datos_historial:
+    #         messagebox.showerror("Error", "No hay historial disponible para generar el PDF.")
+    #         return
+
+    #     # Procesar datos
+    #     datos = {
+    #         "temperatura": [registro[2] for registro in datos_historial if registro[2] is not None],
+    #         "frecuencia_cardiaca": [registro[3] for registro in datos_historial if registro[3] is not None],
+    #         "presion_arterial": [registro[4] for registro in datos_historial if registro[4] is not None],
+    #         "diagnostico": [registro[5] for registro in datos_historial if registro[5] is not None],
+    #     }
+
+    #     # Crear el archivo PDF
+    #     c = canvas.Canvas(pdf_path, pagesize=letter)
+    #     y_position = 750  # Posición inicial del contenido
+
+    #     c.drawString(100, y_position, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
+    #     y_position -= 20
+    #     c.drawString(100, y_position, f"Última Temperatura: {datos['temperatura'][-1]}°C")
+    #     y_position -= 20
+    #     c.drawString(100, y_position, f"Última Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
+    #     y_position -= 20
+    #     c.drawString(100, y_position, f"Última Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
+    #     y_position -= 20
+    #     c.drawString(100, y_position, f"Último Diagnóstico: {datos['diagnostico'][-1]}")
+    #     y_position -= 40
+
+    #     # Agregar recomendaciones
+    #     recomendaciones = generar_recomendaciones(
+    #         {
+    #             "temperatura": datos["temperatura"][-1],
+    #             "presion_arterial": datos["presion_arterial"][-1],
+    #             "frecuencia_cardiaca": datos["frecuencia_cardiaca"][-1],
+    #             "nivel_oxigeno": 95,  # Valor predeterminado
+    #         },
+    #         datos["diagnostico"][-1],
+    #     )
+    #     c.drawString(100, y_position, "Recomendaciones:")
+    #     y_position -= 20
+    #     for recomendacion in recomendaciones:
+    #         c.drawString(120, y_position, f"- {recomendacion}")
+    #         y_position -= 20
+
+    #     c.save()
+    
+    
+    # def generar_pdf(self, cuil, pdf_path):
+    #     """Genera el PDF del diagnóstico para un CUIL específico"""
+    #     datos_historial = obtener_historial(cuil)
+    #     if not datos_historial:
+    #         messagebox.showerror("Error", "No hay historial disponible para generar el PDF.")
+    #         return
+
+    #     datos = {
+    #         "temperatura": [registro[2] for registro in datos_historial if registro[2] is not None],
+    #         "frecuencia_cardiaca": [registro[3] for registro in datos_historial if registro[3] is not None],
+    #         "presion_arterial": [registro[4] for registro in datos_historial if registro[4] is not None],
+    #         "diagnostico": [registro[5] for registro in datos_historial if registro[5] is not None],
+    #     }
+
+    #     # Crear el archivo PDF
+    #     c = canvas.Canvas(pdf_path, pagesize=letter)
+    #     y_position = 750  # Posición inicial del contenido
+
+    #     c.drawString(100, y_position, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
+    #     y_position -= 20
+    #     c.drawString(100, y_position, f"Última Temperatura: {datos['temperatura'][-1]}°C")
+    #     y_position -= 20
+    #     c.drawString(100, y_position, f"Última Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
+    #     y_position -= 20
+    #     c.drawString(100, y_position, f"Última Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
+    #     y_position -= 20
+    #     c.drawString(100, y_position, f"Último Diagnóstico: {datos['diagnostico'][-1]}")
+    #     y_position -= 40
+
+    #     # Agregar recomendaciones
+    #     recomendaciones = generar_recomendaciones(
+    #         {
+    #             "temperatura": datos["temperatura"][-1],
+    #             "presion_arterial": datos["presion_arterial"][-1],
+    #             "frecuencia_cardiaca": datos["frecuencia_cardiaca"][-1],
+    #             "nivel_oxigeno": 95,  # Valor predeterminado
+    #         },
+    #         datos["diagnostico"][-1],
+    #     )
+    #     c.drawString(100, y_position, "Recomendaciones:")
+    #     y_position -= 20
+    #     for recomendacion in recomendaciones:
+    #         c.drawString(120, y_position, f"- {recomendacion}")
+    #         y_position -= 20
+
+    #     c.save()
+
+
+        # def generar_pdf(self, cuil, pdf_path):
+        #   """Genera el PDF del diagnóstico para un CUIL específico"""
+        # datos_historial = obtener_historial(cuil)
+        #  if not datos_historial:
+        #     messagebox.showerror("Error", "No hay historial disponible para generar el PDF.")
+        #     return
+
+        # datos = {
+        #     "temperatura": [registro[2] for registro in datos_historial if registro[2] is not None],
+        #     "frecuencia_cardiaca": [registro[3] for registro in datos_historial if registro[3] is not None],
+        #     "presion_arterial": [registro[4] for registro in datos_historial if registro[4] is not None],
+        #     "diagnostico": [registro[5] for registro in datos_historial if registro[5] is not None],
+        # }
+
+        # # Crear el archivo PDF
+        # c = canvas.Canvas(pdf_path, pagesize=letter)
+        # y_position = 750  # Posición inicial del contenido
+
+        # c.drawString(100, y_position, f"Diagnóstico y Recomendaciones para CUIL: {cuil}")
+        # y_position -= 20
+        # c.drawString(100, y_position, f"Última Temperatura: {datos['temperatura'][-1]}°C")
+        # y_position -= 20
+        # c.drawString(100, y_position, f"Última Frecuencia Cardíaca: {datos['frecuencia_cardiaca'][-1]} bpm")
+        # y_position -= 20
+        # c.drawString(100, y_position, f"Última Presión Arterial: {datos['presion_arterial'][-1]} mmHg")
+        # y_position -= 20
+        # c.drawString(100, y_position, f"Último Diagnóstico: {datos['diagnostico'][-1]}")
+        # y_position -= 40
+
+        # # Agregar recomendaciones
+        # recomendaciones = generar_recomendaciones(
+        #     {
+        #         "temperatura": datos["temperatura"][-1],
+        #         "presion_arterial": datos["presion_arterial"][-1],
+        #         "frecuencia_cardiaca": datos["frecuencia_cardiaca"][-1],
+        #         "nivel_oxigeno": 95,  # Valor predeterminado
+        #     },
+        #     datos["diagnostico"][-1],
+        # )
+        # c.drawString(100, y_position, "Recomendaciones:")
+        # y_position -= 20
+        # for recomendacion in recomendaciones:
+        #     c.drawString(120, y_position, f"- {recomendacion}")
+        #     y_position -= 20
+
+        # c.save()
+
    
 
 
@@ -288,19 +433,30 @@ class SistemaDiagnosticoApp:
         )
         label_perfil.pack(pady=10)
 
+        img_barra = Image.open("iconos/barra1.jpg")  # Ruta de tu ícono
+        img_barra = img_barra.resize((30, 30))  # Redimensionar ícono
+        self.icono_barra = ImageTk.PhotoImage(img_barra)  # Guardar referenci
         # Botón para ver historial gráfico
         boton_historial = ttk.Button(
             self.perfil_frame,
             text="Ver Historial Gráfico",
             bootstyle="info",
+            image=self.icono_barra,  # Agregar ícono
+            compound="right",
             command=lambda: self.mostrar_historial(cuil)
         )
         boton_historial.pack(fill="x", pady=10)
 
+        
+        img_datos = Image.open("iconos/coso1.jpg")  # Ruta de tu ícono
+        img_datos = img_datos.resize((30, 30))  # Redimensionar ícono
+        self.icono_datos = ImageTk.PhotoImage(img_datos)  # Guardar referenci
         # Botón para capturar nuevos datos
         boton_datos = ttk.Button(
             self.perfil_frame,
             text="Capturar Datos Nuevos",
+            image=self.icono_datos,  # Agregar ícono
+            compound="right",
             bootstyle="primary",
             command=lambda: self.obtener_datos(cuil)
         )
@@ -312,24 +468,30 @@ class SistemaDiagnosticoApp:
         # Botón para descargar PDF
         boton_descargar_pdf = ttk.Button(
             self.perfil_frame,
-            text="Descargar PDF",
-            image=self.icono_descargar,  # Agregar ícono
-            compound="right", 
-            # bootstyle="success",
-            bootstyle="secondary",    
+            text="Descargar PDF", 
+            # image=self.icono_descargar,  # Agregar ícono
+            # compound="right", 
+            bootstyle="success",
+            # bootstyle="secondary",    
             command=lambda: self.descargar_pdf(cuil)
         )
         boton_descargar_pdf.pack(fill="x", pady=10)
         
-    #      img_correo = Image.open("iconos/gmail.png")  # Ruta de tu ícono
+    #     img_correo = Image.open("iconos/gmail.png")  # Ruta de tu ícono
     # img_correo = img_correo.resize((20, 20))
     # self.icono_correo = ImageTk.PhotoImage(img_correo)
 
-        
+         
+        img_correo = Image.open("iconos/email1.jpg")  # Ruta de tu ícono
+        img_correo = img_correo.resize((20, 20))
+        self.icono_correo = ImageTk.PhotoImage(img_correo)
+
         # Botón para enviar correo
         boton_enviar = ttk.Button(
             self.perfil_frame,
             text="Enviar Correo",
+            image=self.icono_correo,  # Agregar ícono
+            compound="right", 
             bootstyle="secondary",
             command=self.abrienviocorreo
         )
@@ -411,7 +573,78 @@ class SistemaDiagnosticoApp:
         )
         back_button.pack(fill="x", pady=10)
 
+ ####holder
+    #  def registro(self):
+    #     # Limpiar la ventana actual
+    #     for widget in self.root.winfo_children():
+    #         widget.destroy()
 
+    #     # Crear nueva pantalla para registrarse
+    #     self.register_frame = ttk.Frame(self.root, padding=20)
+    #     self.register_frame.pack(fill="both", expand=True)
+
+    #     label = ttk.Label(
+    #         self.register_frame, 
+    #         text="Registro de Usuario", 
+    #         font=("Arial", 16, "bold")
+    #     )
+    #     label.pack(pady=10)
+
+    #     # Crear entradas con placeholders dinámicos
+    #     self.nombre_entry = ttk.Entry(self.register_frame, font=("Arial", 12), bootstyle="default")
+    #     self.nombre_entry.pack(fill="x", pady=10)
+    #     self.add_placeholder(self.nombre_entry, "Nombre Completo")
+
+    #     self.edad_entry = ttk.Entry(self.register_frame, font=("Arial", 12), bootstyle="default")
+    #     self.edad_entry.pack(fill="x", pady=10)
+    #     self.add_placeholder(self.edad_entry, "Edad")
+
+    #     self.telefono_entry = ttk.Entry(self.register_frame, font=("Arial", 12), bootstyle="default")
+    #     self.telefono_entry.pack(fill="x", pady=10)
+    #     self.add_placeholder(self.telefono_entry, "Teléfono")
+
+    #     self.cuil_entry = ttk.Entry(self.register_frame, font=("Arial", 12), bootstyle="default")
+    #     self.cuil_entry.pack(fill="x", pady=10)
+    #     self.add_placeholder(self.cuil_entry, "CUIL")
+
+    #     self.correo_entry = ttk.Entry(self.register_frame, font=("Arial", 12), bootstyle="default")
+    #     self.correo_entry.pack(fill="x", pady=10)
+    #     self.add_placeholder(self.correo_entry, "Correo Electrónico")
+
+    #     register_button = ttk.Button(
+    #         self.register_frame, 
+    #         text="Registrar", 
+    #         bootstyle="primary", 
+    #         command=self.registrar_paciente
+    #     )
+    #     register_button.pack(fill="x", pady=10)
+
+    #     back_button = ttk.Button(
+    #         self.register_frame,
+    #         text="Volver",
+    #         bootstyle="secondary",
+    #         command=self.crear_pantalla_principal
+    #     )
+    #     back_button.pack(fill="x", pady=10)
+
+    # def add_placeholder(self, entry, placeholder_text):
+    #     """Agrega un placeholder dinámico a un ttk.Entry"""
+    #     def on_focus_in(event):
+    #         if entry.get() == placeholder_text:
+    #             entry.delete(0, tk.END)
+    #             entry.config(foreground="black")
+
+    #     def on_focus_out(event):
+    #         if entry.get() == "":
+    #             entry.insert(0, placeholder_text)
+    #             entry.config(foreground="gray")
+
+    #     entry.insert(0, placeholder_text)
+    #     entry.config(foreground="gray")
+    #     entry.bind("<FocusIn>", on_focus_in)
+    #     entry.bind("<FocusOut>", on_focus_out)
+
+              
     # def registrar_paciente(self):
     #     nombre = self.nombre_entry.get()
     #     edad = self.edad_entry.get()
@@ -547,8 +780,10 @@ class SistemaDiagnosticoApp:
     # Abrir la interfaz de correo
      correo_ventana = tk.Toplevel(self.root)
      DiagnosticoDifusoApp(correo_ventana)
+     correo_app.generar_pdf = self.generar_pdf     
 
-        
+      
+
         #########################
 
 
