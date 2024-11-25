@@ -412,22 +412,68 @@ class SistemaDiagnosticoApp:
         back_button.pack(fill="x", pady=10)
 
 
-    def registrar_paciente(self):
-        nombre = self.nombre_entry.get()
-        edad = self.edad_entry.get()
-        telefono = self.telefono_entry.get()
-        cuil = self.cuil_entry.get()
-        correo = self.correo_entry.get()
+    # def registrar_paciente(self):
+    #     nombre = self.nombre_entry.get()
+    #     edad = self.edad_entry.get()
+    #     telefono = self.telefono_entry.get()
+    #     cuil = self.cuil_entry.get()
+    #     correo = self.correo_entry.get()
 
+    #     if obtener_paciente(cuil):
+    #         messagebox.showerror("Error", "El CUIL ya está registrado.")
+    #     else:
+    #         agregar_paciente(nombre, edad, telefono, cuil, correo)
+    #         messagebox.showinfo("Éxito", "Registro exitoso. Puede iniciar sesión ahora.")
+    #         # self.crear_pantalla_principal()
+    #         self.cuil = cuil  # Guardar el CUIL registrado
+    #         self.abrir_perfil(cuil)  # Redirigir automáticamente al perfil
+     
+    def registrar_paciente(self):
+        import re  # Necesario para la validación del correo electrónico
+
+        # Obtener los datos ingresados
+        nombre = self.nombre_entry.get().strip()
+        edad = self.edad_entry.get().strip()
+        telefono = self.telefono_entry.get().strip()
+        cuil = self.cuil_entry.get().strip()
+        correo = self.correo_entry.get().strip()
+
+        # Validar CUIL
+        if not (cuil.isdigit() and len(cuil) == 11):
+            messagebox.showerror("Error", "CUIL inválido. Debe tener 11 dígitos.")
+            return
+
+        # Validar correo electrónico
+        correo_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+        if not re.match(correo_regex, correo):
+            messagebox.showerror("Error", "Correo electrónico inválido. EJ: 'Diagnostico12@gmail.com'")
+            return
+
+        # Validar teléfono
+        if not (telefono.isdigit() and len(telefono) == 10):
+            messagebox.showerror("Error", "Teléfono inválido, debe contener 10 dígitos.")
+            return
+
+        # Validar edad
+        if not edad.isdigit():
+            messagebox.showerror("Error", "Edad inválida.")
+            return
+        edad = int(edad)
+        if not (0 <= edad <= 110):
+            messagebox.showerror("Error", "Edad inválida.")
+            return
+
+        # Verificar si el CUIL ya está registrado
         if obtener_paciente(cuil):
             messagebox.showerror("Error", "El CUIL ya está registrado.")
-        else:
-            agregar_paciente(nombre, edad, telefono, cuil, correo)
-            messagebox.showinfo("Éxito", "Registro exitoso. Puede iniciar sesión ahora.")
-            # self.crear_pantalla_principal()
-            self.cuil = cuil  # Guardar el CUIL registrado
-            self.abrir_perfil(cuil)  # Redirigir automáticamente al perfil
-            
+            return
+
+        # Si todo es válido, guardar el paciente en la base de datos
+        agregar_paciente(nombre, edad, telefono, cuil, correo)
+        messagebox.showinfo("Éxito", "Registro exitoso. Puede iniciar sesión ahora.")
+        self.cuil = cuil  # Guardar el CUIL registrado
+        self.abrir_perfil(cuil)  # Redirigir automáticamente al perfil
+       
 
 
 
